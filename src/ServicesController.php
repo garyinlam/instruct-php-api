@@ -42,7 +42,12 @@ class ServicesController
             "ref" => $ref
           ]);
         } else {
-
+          $rows = $this->gateway->update($service, $data);
+          $ref = $service['ref'];
+          echo json_encode([
+            "message" => "Product $ref updated",
+            "rows" => $rows
+          ]);
         }
 
         

@@ -82,4 +82,23 @@ class ServicesGateway
     return $data["ref"];
 
   }
+
+  public function update(array $current, array $new): int
+  {
+    $sql = "UPDATE services
+            SET centre = :centre, service = :service, country = :country
+            WHERE ref = :ref";
+
+    $stmt = $this->conn->prepare($sql);
+    
+    $stmt->bindValue(":ref", $new["ref"], PDO::PARAM_STR);
+    $stmt->bindValue(":centre", $new["centre"] ?? $current["centre"], PDO::PARAM_STR);
+    $stmt->bindValue(":service", $new["service"] ?? $current["service"], PDO::PARAM_STR);
+    $stmt->bindValue(":country", $new["country"] ?? $current["country"], PDO::PARAM_STR);
+
+    $stmt->execute();
+
+    return $stmt->rowCount();
+
+  }
 }
