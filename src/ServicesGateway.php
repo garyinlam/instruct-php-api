@@ -71,7 +71,7 @@ class ServicesGateway
 
     $stmt = $this->conn->prepare($sql);
 
-    $stmt->bindValue(":name", $data["name"], PDO::PARAM_STR);
+    $stmt->bindValue(":ref", $data["ref"], PDO::PARAM_STR);
     $stmt->bindValue(":centre", $data["centre"], PDO::PARAM_STR);
     $stmt->bindValue(":service", $data["service"], PDO::PARAM_STR);
     $stmt->bindValue(":country", $data["country"], PDO::PARAM_STR);
@@ -79,7 +79,7 @@ class ServicesGateway
 
     $stmt->execute();
     
-    return $this->conn->lastInsertId();
+    return $data["ref"];
 
   }
 }

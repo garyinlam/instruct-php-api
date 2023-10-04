@@ -31,13 +31,21 @@ class ServicesController
           break;
         }
 
-        $id = $this->gateway->create($data);
+        $service = $this->gateway->get($data["ref"]);
 
-        http_response_code(201);
-        echo json_encode([
-          "message" => "Product created",
-          "id" => $id
-        ]);
+        if(!$service){
+          $ref = $this->gateway->create($data);
+
+          http_response_code(201);
+          echo json_encode([
+            "message" => "Product created",
+            "ref" => $ref
+          ]);
+        } else {
+
+        }
+
+        
         break;
       default:
         http_response_code(405);
