@@ -5,18 +5,9 @@ class ServicesController
   public function __construct(private ServicesGateway $gateway)
   {}
 
-  public function processRequest(string $method, ?string $country, ?string $ref): void
+  public function processRequest(string $method, ?string $country): void
   {
-    if($ref){
-      $this->processResourceRequest($method, $ref);
-    } else {
-      $this->processCollectionRequest($method, $country);
-    }
-  }
-
-  private function processResourceRequest(string $method, ?string $ref): void
-  {
-
+    $this->processCollectionRequest($method, $country);
   }
 
   private function processCollectionRequest(string $method, ?string $country): void
@@ -29,6 +20,40 @@ class ServicesController
           echo json_encode($this->gateway->getAll());
         }
         break;
+      case "POST":
+        $data = (array) json_decode(file_get_contents("php://input"), true);
+
+        $errors = $this->getValidationErrors($data);
+
+        if(!empty($errors)){
+          http_response_code(422);
+          echo json_encode(["errors" => $errors]);
+          break;
+        }
+
+        $id = $this->gateway->create($data);
+
+        http_response_code(201);
+        echo json_encode([
+          "message" => "Product created",
+          "id" => $id
+        ]);
+        break;
+      default:
+        http_response_code(405);
+        header("Allow: GET");
     }
+    
+  }
+
+  private function getValidationErrors(array $data): array
+  {
+    $errors = [];
+
+    if(count($data) !== 4){
+      $errors[] = "missing data";
+    }
+
+    return $errors;
   }
 }
