@@ -13,5 +13,13 @@ header("Content-type: application/json; charset=UTF-8;");
 
 $parts = explode("/",$_SERVER["REQUEST_URI"]);
 
+if($parts[2] != "services"){
+  http_response_code(404);
+  exit;
+}
+
+$id = $parts[3] ?? null;
 
 $database = new Database("localhost", "instruct", "root", "password1");
+
+$gateway = new ServicesGateway($database);
