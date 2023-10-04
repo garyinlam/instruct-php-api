@@ -23,3 +23,5 @@ $id = $parts[3] ?? null;
 $database = new Database("localhost", "instruct", "root", "password1");
 
 $gateway = new ServicesGateway($database);
+
+$controller = new ServicesController($gateway);
