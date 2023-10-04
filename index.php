@@ -25,3 +25,5 @@ $database = new Database("localhost", "instruct", "root", "password1");
 $gateway = new ServicesGateway($database);
 
 $controller = new ServicesController($gateway);
+
+$controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
