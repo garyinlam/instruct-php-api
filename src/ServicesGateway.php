@@ -24,4 +24,25 @@ class ServicesGateway
 
     return $data;
   }
+
+  public function getAllByCountry(string $country): array
+  {
+    $sql = "SELECT *
+            FROM services
+            WHERE LOWER(country) = LOWER(:country)";
+    
+    $stmt = $this->conn->prepare($sql);
+
+    $stmt->bindValue(":country", $country, PDO::PARAM_STR);
+
+    $stmt->execute();
+
+    $data = [];
+
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+      $data[] = $row;
+    }
+
+    return $data;
+  }
 }

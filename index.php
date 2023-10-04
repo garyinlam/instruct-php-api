@@ -13,12 +13,9 @@ header("Content-type: application/json; charset=UTF-8;");
 
 $parts = explode("/",$_SERVER["REQUEST_URI"]);
 
-if($parts[2] != "services"){
-  http_response_code(404);
-  exit;
-}
+$country = isset($_GET['country']) ? $_GET['country'] : null;
 
-$id = $parts[3] ?? null;
+$ref = isset($_GET['ref']) ? $_GET['ref'] : null;
 
 $database = new Database("localhost", "instruct", "root", "password1");
 
@@ -26,4 +23,4 @@ $gateway = new ServicesGateway($database);
 
 $controller = new ServicesController($gateway);
 
-$controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+$controller->processRequest($_SERVER["REQUEST_METHOD"], $country, $ref);
