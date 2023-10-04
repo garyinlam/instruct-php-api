@@ -1,7 +1,9 @@
 <?php
 
+// class to handle errors
 class ErrorHandler
 {
+  // handles thrown exceptions, to match set_exception_handler
   public static function handleException(Throwable $exception): void
   {
     http_response_code(500);
@@ -15,6 +17,8 @@ class ErrorHandler
     ]);
   }
 
+  
+  // handles non exception errors, to match set_error_handler
   public static function handleError(
     int $errno,
     string $errstr,

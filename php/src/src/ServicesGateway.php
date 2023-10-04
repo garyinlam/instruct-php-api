@@ -1,5 +1,6 @@
 <?php
 
+// gateway class for services table
 class ServicesGateway
 {
   private PDO $conn;
@@ -9,6 +10,7 @@ class ServicesGateway
     $this->conn = $database->getConnection();
   }
 
+  // get all records
   public function getAll(): array
   {
     $sql = "SELECT *
@@ -25,6 +27,7 @@ class ServicesGateway
     return $data;
   }
 
+  // get records that match the given country code, ignore case
   public function getAllByCountry(string $country): array
   {
     $sql = "SELECT *
@@ -46,6 +49,7 @@ class ServicesGateway
     return $data;
   }
 
+  // get a single record that matches the given reference
   public function get(string $ref): array | false
   {
     $sql = "SELECT *
@@ -64,6 +68,7 @@ class ServicesGateway
   }
 
 
+  // create a new record
   public function create(array $data): string
   {
     $sql = "INSERT INTO services (ref, centre, service, country)
@@ -83,6 +88,7 @@ class ServicesGateway
 
   }
 
+  // update given record
   public function update(array $current, array $new): int
   {
     $sql = "UPDATE services

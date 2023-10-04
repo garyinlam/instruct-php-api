@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+// autoload classes
 spl_autoload_register(function ($class){
   require __DIR__ . "/src/$class.php";
 });
 
+// handle errors and exceptions
 set_error_handler("ErrorHandler::handleError");
 set_exception_handler("ErrorHandler::handleException");
 
@@ -13,6 +15,7 @@ header("Content-type: application/json; charset=UTF-8;");
 
 $parts = explode("/",$_SERVER["REQUEST_URI"]);
 
+// check the url is correct
 if(!str_starts_with($parts[1],'services')){
   http_response_code(404);
   exit;

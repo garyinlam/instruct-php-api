@@ -1,18 +1,22 @@
 <?php
 
+// controller class for services table
 class ServicesController
 {
   public function __construct(private ServicesGateway $gateway)
   {}
 
+  // process any given request, set to be expandable for singular requests
   public function processRequest(string $method, ?string $country): void
   {
     $this->processCollectionRequest($method, $country);
   }
 
+  // process requests without identifier
   private function processCollectionRequest(string $method, ?string $country): void
   {
     switch($method){
+      // process get requests, may have query params for country code
       case "GET":
         if($country){
           echo json_encode($this->gateway->getAllByCountry($country));
@@ -20,6 +24,9 @@ class ServicesController
           echo json_encode($this->gateway->getAll());
         }
         break;
+      // process post requests
+      // if record with matching reference exist update
+      // else create new
       case "POST":
         $data = (array) json_decode(file_get_contents("php://input"), true);
 
@@ -59,6 +66,7 @@ class ServicesController
     
   }
 
+  // validate that all data is present
   private function getValidationErrors(array $data): array
   {
     $errors = [];

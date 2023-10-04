@@ -1,5 +1,6 @@
 <?php
 
+// Create database object and use PDO to connect to it
 class Database{
   public function __construct(private string $host,
                               private string $name,
